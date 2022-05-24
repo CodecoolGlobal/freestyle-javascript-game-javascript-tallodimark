@@ -26,6 +26,10 @@
     background: url('../img/open-field.png');
 }
 
+.game-field .row .field.monster {
+    background: url('../img/mine.png');
+}
+
 .game-field .row .field.hero_stands {
     background: url('../img/flag.png');
 }
