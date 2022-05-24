@@ -60,20 +60,10 @@ function drawWalls () {
     let secondAndThirdRow = document.querySelectorAll('[data-row="' + secondRow + '"], [data-row="' + thirdRow + '"]')
     console.log(secondAndThirdRow.length)
     for (let i = 0; i < secondAndThirdRow.length; i++) {
-        //if ((Math.round(i % rows) === 0) || (Math.round(i % rows) === 1))  {
         if (i === Math.round(rows) || i === Math.round(rows * 1.5) || i === Math.round(rows / 2) || (i === Math.round(rows * 3) || i === Math.round(rows * 3.5) || i === Math.round(rows * 2.5))) {
             secondAndThirdRow[i].classList.add('gate')
         }
         secondAndThirdRow[i].classList.add('wall')}
-    // let string1 = ''
-    // for (let i = 1; i < 4; i++) {
-    //     '[data-row="' + Math.round(secondCol / 2) + '"][data-col="' + Math.round(secondRow/2 * i) + '"]'
-    // }
-    // let colGates = document.querySelectorAll('[data-row="' +
-    //     Math.round(secondCol / 2) + '"], [data-row="' + secondCol + '"], [data-row="' +
-    //     Math.round(secondCol * 1,5) + '"]')
-    // for (let element of colGates) {
-    //     element.classList.remove('wall')}
 }
 function addRow(gameField) {
     gameField.insertAdjacentHTML(
@@ -118,5 +108,5 @@ function moveMonserts(monsterNumber, difficultyTimer) {
     }
 }
 function placeHero() {
-    console.log("placeHero")
+    document.querySelector('[data-row = "5"][data-col = "2"]').classList.add('hero_stands');
 }
