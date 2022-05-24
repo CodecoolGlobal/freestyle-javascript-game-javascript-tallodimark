@@ -42,8 +42,9 @@ function initGame() {
     this.drawBoard();
     this.drawWalls()
     this.populateBoard();
-    this.placeHero();
-    this.initKeyUp();
+    let heroStartPosition = this.placeHero();
+    console.log(heroStartPosition);
+    this.initKeyUp(heroStartPosition);
 }
 
 function drawBoard () {
@@ -109,7 +110,8 @@ function setGameFieldSize(gameField) {
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowUp') {console.log(event.key)
+    if (event.key === 'ArrowUp') {
+
     } else if (event.key === 'ArrowDown') {console.log(event.key)
     } else if (event.key === 'ArrowLeft') {console.log(event.key)
     } else if (event.key === 'ArrowRight') {console.log(event.key)
@@ -151,7 +153,6 @@ function checkNeighborCells(randomRow, randomCol) {
 
 function populateBoard() {
     spawnEnemies();
-
 }
 
 function spawnEnemies() {
@@ -185,5 +186,7 @@ function moveMonserts(monsterNumber, difficultyTimer) {
     }
 }
 function placeHero() {
-    document.querySelector('[data-row = "5"][data-col = "2"]').classList.add('hero_stands');
+    let heroStartPosition = document.querySelector('[data-row = "5"][data-col = "2"]');
+    heroStartPosition.classList.add('hero_stands');
+    return heroStartPosition;
 }
