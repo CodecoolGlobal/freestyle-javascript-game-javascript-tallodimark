@@ -50,13 +50,21 @@ function drawWalls () {
     let secondCol = Math.round(cols / 3)
     let thirdCol = Math.round((cols / 3) * 2)
     let secondAndThirdCol = document.querySelectorAll('[data-col="' + secondCol + '"], [data-col="' + thirdCol + '"]')
-    for (let element of secondAndThirdCol) {
-        element.classList.add('wall')}
+    for (let i = 0; i < secondAndThirdCol.length; i++) {
+        if (i === Math.round(cols / 6) || i === Math.round((cols/ 6) -1) || i === Math.round(cols/2) || i === Math.round((cols/2) -1) || i === Math.round(cols / 6 * 5) || i === Math.round((cols / 6 * 5)-1)) {
+            secondAndThirdCol[i].classList.add('gate')
+        }
+        secondAndThirdCol[i].classList.add('wall')}
     let secondRow = Math.round(rows / 3)
     let thirdRow = Math.round((rows / 3) * 2)
     let secondAndThirdRow = document.querySelectorAll('[data-row="' + secondRow + '"], [data-row="' + thirdRow + '"]')
-    for (let element of secondAndThirdRow) {
-        element.classList.add('wall')}
+    console.log(secondAndThirdRow.length)
+    for (let i = 0; i < secondAndThirdRow.length; i++) {
+        //if ((Math.round(i % rows) === 0) || (Math.round(i % rows) === 1))  {
+        if (i === Math.round(rows) || i === Math.round(rows * 1.5) || i === Math.round(rows / 2) || (i === Math.round(rows * 3) || i === Math.round(rows * 3.5) || i === Math.round(rows * 2.5))) {
+            secondAndThirdRow[i].classList.add('gate')
+        }
+        secondAndThirdRow[i].classList.add('wall')}
     // let string1 = ''
     // for (let i = 1; i < 4; i++) {
     //     '[data-row="' + Math.round(secondCol / 2) + '"][data-col="' + Math.round(secondRow/2 * i) + '"]'
