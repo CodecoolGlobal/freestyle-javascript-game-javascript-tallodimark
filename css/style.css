@@ -21,3 +21,11 @@
 .game-field .row .field.wall {
     background: url('../img/closed-field.png');
 }
+
+.game-field .row .field.gate {
+    background: url('../img/open-field.png');
+}
+
+.game-field .row .field.hero_stands {
+    background: url('../img/flag.png');
+}
