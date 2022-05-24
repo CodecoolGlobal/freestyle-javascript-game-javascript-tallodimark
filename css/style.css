@@ -21,3 +21,7 @@
 .game-field .row .field.wall {
     background: url('../img/closed-field.png');
 }
+
+.game-field .row .field.gater {
+    background: url('../img/open-field.png');
+}
