@@ -150,6 +150,11 @@ function checkNeighborCells(randomRow, randomCol) {
 }
 
 function populateBoard() {
+    spawnEnemies();
+
+}
+
+function spawnEnemies() {
     for (let i = 0; i < monsterNumber; i++) {
         let checkNeighbor = false
         while (!checkNeighbor) {
