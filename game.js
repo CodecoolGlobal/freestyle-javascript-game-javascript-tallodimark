@@ -47,6 +47,25 @@ function drawWalls () {
         '[data-col="0"], [data-col="' + (cols - 1) + '"]')
     for (let element of firstAndLastRowAndCol) {
         element.classList.add('wall')}
+    let secondCol = Math.round(cols / 3)
+    let thirdCol = Math.round((cols / 3) * 2)
+    let secondAndThirdCol = document.querySelectorAll('[data-col="' + secondCol + '"], [data-col="' + thirdCol + '"]')
+    for (let element of secondAndThirdCol) {
+        element.classList.add('wall')}
+    let secondRow = Math.round(rows / 3)
+    let thirdRow = Math.round((rows / 3) * 2)
+    let secondAndThirdRow = document.querySelectorAll('[data-row="' + secondRow + '"], [data-row="' + thirdRow + '"]')
+    for (let element of secondAndThirdRow) {
+        element.classList.add('wall')}
+    // let string1 = ''
+    // for (let i = 1; i < 4; i++) {
+    //     '[data-row="' + Math.round(secondCol / 2) + '"][data-col="' + Math.round(secondRow/2 * i) + '"]'
+    // }
+    // let colGates = document.querySelectorAll('[data-row="' +
+    //     Math.round(secondCol / 2) + '"], [data-row="' + secondCol + '"], [data-row="' +
+    //     Math.round(secondCol * 1,5) + '"]')
+    // for (let element of colGates) {
+    //     element.classList.remove('wall')}
 }
 function addRow(gameField) {
     gameField.insertAdjacentHTML(
