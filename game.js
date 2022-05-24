@@ -46,17 +46,28 @@ function drawWalls () {
     firstAndLastRowAndCol = document.querySelectorAll('[data-row="0"], [data-row="' + (rows - 1) + '"],' +
         '[data-col="0"], [data-col="' + (cols - 1) + '"]')
     for (let element of firstAndLastRowAndCol) {
-        element.classList.add('wall')}
+        element.classList.add('wall')
+    }
     let secondCol = Math.round(cols / 3)
     let thirdCol = Math.round((cols / 3) * 2)
+    let rowGates = [`${Math.round(rows/6)}`, `${Math.round((rows/6) * 3)}`, `${Math.round((rows/6) * 5)}`]
+    let colGates = [`${Math.round(cols/6)}`, `${Math.round((cols/6) * 3)}`, `${Math.round((cols/6) * 5)}`]
     let secondAndThirdCol = document.querySelectorAll('[data-col="' + secondCol + '"], [data-col="' + thirdCol + '"]')
     for (let element of secondAndThirdCol) {
-        element.classList.add('wall')}
+        if (rowGates.includes(element.getAttribute('data-row'))) {
+            continue
+        }
+        element.classList.add('wall')
+    }
     let secondRow = Math.round(rows / 3)
     let thirdRow = Math.round((rows / 3) * 2)
     let secondAndThirdRow = document.querySelectorAll('[data-row="' + secondRow + '"], [data-row="' + thirdRow + '"]')
     for (let element of secondAndThirdRow) {
-        element.classList.add('wall')}
+        if (colGates.includes(element.getAttribute('data-col'))) {
+            continue
+        }
+        element.classList.add('wall')
+    }
     // let string1 = ''
     // for (let i = 1; i < 4; i++) {
     //     '[data-row="' + Math.round(secondCol / 2) + '"][data-col="' + Math.round(secondRow/2 * i) + '"]'
