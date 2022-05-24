@@ -3,6 +3,7 @@ const urlParams = new URLSearchParams(queryString);
 const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
+const wallCount = 30
 let monsterNumber = 0;
 let coinNumber = 0;
 let chestNumber = 0;
@@ -42,7 +43,6 @@ function initGame() {
     this.drawBoard();
     this.drawWalls()
     this.populateBoard();
-    this.placeHero();
     this.initKeyUp();
 }
 
@@ -151,7 +151,23 @@ function checkNeighborCells(randomRow, randomCol) {
 
 function populateBoard() {
     spawnEnemies();
+    spawnInnerWalls();
+    placeHero();
+}
 
+function spawnInnerWalls() {
+    for (let i = 0; i < wallCount; i++) {
+        let checkNeighbor = false
+        while (!checkNeighbor) {
+            let randomRow = getRandomInt(0, rows)
+            let randomCol = getRandomInt(0, cols)
+            checkNeighbor = checkNeighborCells(randomRow, randomCol)
+            if (checkNeighbor) {
+                let wall = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+                wall.classList.add("wall")
+            }
+        }
+    }
 }
 
 function spawnEnemies() {
@@ -185,5 +201,14 @@ function moveMonserts(monsterNumber, difficultyTimer) {
     }
 }
 function placeHero() {
-    document.querySelector('[data-row = "5"][data-col = "2"]').classList.add('hero_stands');
+    let checkNeighbor = false
+    while (!checkNeighbor) {
+        let randomRow = getRandomInt(0, rows)
+        let randomCol = getRandomInt(0, cols)
+        checkNeighbor = checkNeighborCells(randomRow, randomCol)
+        if (checkNeighbor) {
+            let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+            player.classList.add("hero_stands")
+        }
+    }
 }
