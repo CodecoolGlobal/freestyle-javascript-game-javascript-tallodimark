@@ -3,6 +3,7 @@ const urlParams = new URLSearchParams(queryString);
 const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
+const wallCount = 30
 let monsterNumber = 0;
 let coinNumber = 0;
 let chestNumber = 0;
@@ -42,9 +43,7 @@ function initGame() {
     this.drawBoard();
     this.drawWalls()
     this.populateBoard();
-    let heroStartPosition = this.placeHero();
-    console.log(heroStartPosition);
-    this.initKeyUp(heroStartPosition);
+    this.initKeyUp();
 }
 
 function drawBoard () {
@@ -110,8 +109,7 @@ function setGameFieldSize(gameField) {
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowUp') {
-
+    if (event.key === 'ArrowUp') {console.log(event.key)
     } else if (event.key === 'ArrowDown') {console.log(event.key)
     } else if (event.key === 'ArrowLeft') {console.log(event.key)
     } else if (event.key === 'ArrowRight') {console.log(event.key)
@@ -153,6 +151,23 @@ function checkNeighborCells(randomRow, randomCol) {
 
 function populateBoard() {
     spawnEnemies();
+    spawnInnerWalls();
+    placeHero();
+}
+
+function spawnInnerWalls() {
+    for (let i = 0; i < wallCount; i++) {
+        let checkNeighbor = false
+        while (!checkNeighbor) {
+            let randomRow = getRandomInt(0, rows)
+            let randomCol = getRandomInt(0, cols)
+            checkNeighbor = checkNeighborCells(randomRow, randomCol)
+            if (checkNeighbor) {
+                let wall = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+                wall.classList.add("wall")
+            }
+        }
+    }
 }
 
 function spawnEnemies() {
@@ -186,7 +201,14 @@ function moveMonserts(monsterNumber, difficultyTimer) {
     }
 }
 function placeHero() {
-    let heroStartPosition = document.querySelector('[data-row = "5"][data-col = "2"]');
-    heroStartPosition.classList.add('hero_stands');
-    return heroStartPosition;
+    let checkNeighbor = false
+    while (!checkNeighbor) {
+        let randomRow = getRandomInt(0, rows)
+        let randomCol = getRandomInt(0, cols)
+        checkNeighbor = checkNeighborCells(randomRow, randomCol)
+        if (checkNeighbor) {
+            let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+            player.classList.add("hero_stands")
+        }
+    }
 }
