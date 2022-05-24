@@ -1,6 +1,8 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const difficulty = urlParams.get('difficulty');
+const rows = 27
+const cols = 54
 let monsterNumber = 0;
 let coinNumber = 0;
 let chestNumber = 0;
@@ -20,13 +22,49 @@ initGame();
 
 function initGame() {
     this.drawBoard();
+    this.drawWalls()
     this.populateBoard(monsterNumber);
     this.placeHero();
     this.initKeyUp();
 }
 
 function drawBoard () {
-    console.log("draw");
+    let gameField = document.querySelector(".game-field");
+    this.setGameFieldSize(gameField);
+    let cellIndex = 0
+    for (let row = 0; row < rows; row++) {
+        const rowElement = this.addRow(gameField);
+        for (let col = 0; col < cols; col++) {
+            this.addCell(rowElement, row, col);
+            cellIndex++
+        }
+        ;
+    }
+
+}
+function drawWalls () {
+    firstAndLastRowAndCol = document.querySelectorAll('[data-row="0"], [data-row="' + (rows - 1) + '"],' +
+        '[data-col="0"], [data-col="' + (cols - 1) + '"]')
+    for (let element of firstAndLastRowAndCol) {
+        element.classList.add('wall')}
+}
+function addRow(gameField) {
+    gameField.insertAdjacentHTML(
+        'beforeend',
+        '<div class="row"></div>'
+    );
+    return gameField.lastElementChild;
+}
+function addCell(rowElement, row, col) {
+    rowElement.insertAdjacentHTML(
+        'beforeend',
+        `<div class="field"
+                    data-row="${row}"
+                    data-col="${col}"></div>`);
+}
+function setGameFieldSize(gameField) {
+    gameField.style.width = (gameField.dataset.cellWidth * cols) + 'px';
+    gameField.style.height = (gameField.dataset.cellHeight * rows) + 'px';
 }
 
 function initKeyUp () {
@@ -51,4 +89,7 @@ function moveMonserts(monsterNumber, difficultyTimer) {
         let currentMonsterRow = currentMonster.dataset.row;
         let currentMonsterCol = currentMonster.dataset.col;
     }
+}
+function placeHero() {
+    console.log("placeHero")
 }
