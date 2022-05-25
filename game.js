@@ -148,17 +148,17 @@ function initKeyUp () {
     } else if (event.key === 'ArrowRight') {heroMove('right')
     } else if (event.key === ' ') {console.log(event.key)
     } else {console.log('invalid')
-    }console.log(heroCurrentPlace)
+    }
     })
 }
 
 function checkNeighborCells(randomRow, randomCol) {
     let rowBefore = 0;
-    if (randomRow != 0) {rowBefore = randomRow - 1}
+    if (randomRow !== 0) {rowBefore = randomRow - 1}
     let rowAfter = randomRow + 1;
     if (rowAfter > rows - 1) {rowAfter = randomRow}
     let colBefore = 0;
-    if (randomCol != 0) {colBefore = randomCol - 1}
+    if (randomCol !== 0) {colBefore = randomCol - 1}
     let colAfter = randomCol + 1;
     if (colAfter > cols - 1) {colAfter = randomCol}
     for (let i = rowBefore; i < rowAfter + 1; i++) {
@@ -183,39 +183,35 @@ function checkNeighborCells(randomRow, randomCol) {
 }
 
 function populateBoard() {
-    spawnEnemies();
-    spawnInnerWalls();
-    placeHero();
+    spawnObjects('monster', monsterNumber);
+    spawnObjects('bush', wallCount);
+    spawnObjects('coin', coinNumber);
+    spawnObjects('hero', 1);
+    spawnObjects('chest', chestNumber);
+    spawnObjects('sword', swordNumber)
 }
 
-function spawnInnerWalls() {
-    for (let i = 0; i < wallCount; i++) {
-        let checkNeighbor = false
+function spawnObjects(objectName, numberOfObject) {
+    for (let i=0; i<arguments[1]; i++) {
+        let checkNeighbor = false;
         while (!checkNeighbor) {
-            let randomRow = getRandomInt(0, rows)
-            let randomCol = getRandomInt(0, cols)
-            checkNeighbor = checkNeighborCells(randomRow, randomCol)
+            let randomRow = getRandomInt(0, rows);
+            let randomCol = getRandomInt(0, cols);
+            checkNeighbor = checkNeighborCells(randomRow, randomCol);
             if (checkNeighbor) {
-                let wall = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-                wall.classList.add("wall")
+                let objectToPlace = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+                objectToPlace.classList.add(arguments[0]);
+                if (arguments[0] === 'hero') {
+                    objectToPlace.setAttribute("data-direction", "down")
+                }
+                if (arguments[0] === 'monster') {
+                    objectToPlace.setAttribute('id', i)
+                    objectToPlace.setAttribute("data-direction", "down")
+                }
             }
+        if (arguments[0] === 'monster') {
+            document.querySelector(".stats").setAttribute("data-monster-" + i + "-hp", monsterHp)
         }
-    }
-}
-
-function spawnEnemies() {
-    for (let i = 0; i < monsterNumber; i++) {
-        let checkNeighbor = false
-        while (!checkNeighbor) {
-            let randomRow = getRandomInt(0, rows)
-            let randomCol = getRandomInt(0, cols)
-            checkNeighbor = checkNeighborCells(randomRow, randomCol)
-            if (checkNeighbor) {
-                let monster = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-                monster.classList.add("monster")
-                monster.setAttribute("id", i)
-            }
-        document.querySelector(".stats").setAttribute("data-monster-" + i + "-hp", monsterHp)
         }
     }
 }
@@ -231,18 +227,5 @@ function moveMonserts(monsterNumber, difficultyTimer) {
         let currentMonster = document.querySelector('.monster' + i);
         let currentMonsterRow = currentMonster.dataset.row;
         let currentMonsterCol = currentMonster.dataset.col;
-    }
-}
-function placeHero() {
-    let checkNeighbor = false
-    while (!checkNeighbor) {
-        let randomRow = getRandomInt(0, rows)
-        let randomCol = getRandomInt(0, cols)
-        checkNeighbor = checkNeighborCells(randomRow, randomCol)
-        if (checkNeighbor) {
-            let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-            player.classList.add("hero")
-            player.setAttribute("data-direction", "down")
-        }
     }
 }
