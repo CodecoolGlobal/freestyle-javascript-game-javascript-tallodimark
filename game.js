@@ -214,7 +214,7 @@ function populateBoard() {
 }
 
 function spawnObjects(objectName, numberOfObject) {
-    for (let i=0; i<arguments[1]; i++) {
+    for (let i=0; i<numberOfObject; i++) {
         let checkNeighbor = false;
         while (!checkNeighbor) {
             let randomRow = getRandomInt(0, rows);
@@ -222,11 +222,11 @@ function spawnObjects(objectName, numberOfObject) {
             checkNeighbor = checkNeighborCells(randomRow, randomCol);
             if (checkNeighbor) {
                 let objectToPlace = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-                objectToPlace.classList.add(arguments[0]);
-                if (arguments[0] === 'hero') {
+                objectToPlace.classList.add(objectName);
+                if (objectName === 'hero') {
                     objectToPlace.setAttribute("data-direction", "down")
                 }
-                if (arguments[0] === 'monster') {
+                else if (objectName === 'monster') {
                     objectToPlace.setAttribute('id', "monster" + i)
                     objectToPlace.setAttribute("data-direction", "down")
                     objectToPlace.setAttribute("data-monster-hp", monsterHp)
