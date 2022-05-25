@@ -4,6 +4,7 @@ const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
 const wallCount = 30
+let gameRunning = true
 let intervalId;
 let monsterNumber = 0;
 let coinNumber = 0;
@@ -55,13 +56,14 @@ function fillStats() {
         'beforeend',
         '<div class="stats hud-hp"></div>'
     );
+    document.querySelector(".hud-hp").setAttribute("data-hp", heroHp)
     statField.insertAdjacentHTML(
         'beforeend',
         '<div class="stats hud-coins"></div>'
     );
     statField.insertAdjacentHTML(
         'beforeend',
-        '<p class="stats hud-coin-amount">0 g</p>'
+        '<div class="stats hud-coin-amount">0</div>'
     );
     let hpPool = document.querySelector(".hud-hp")
     for (let hp = 1; hp < heroHp; hp += 4) {
@@ -188,14 +190,35 @@ function validateMovement(type, row, col) {
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowUp') {heroMove('up')
-    } else if (event.key === 'ArrowDown') {heroMove('down')
-    } else if (event.key === 'ArrowLeft') {heroMove('left')
-    } else if (event.key === 'ArrowRight') {heroMove('right')
-    } else if (event.key === ' ') {console.log(event.key)
-    } else {console.log('invalid')
-    }
-    })
+        if (gameRunning) {
+        if (event.key === 'ArrowUp') {
+            heroMove('up')
+        } else if (event.key === 'ArrowDown') {
+            heroMove('down')
+        } else if (event.key === 'ArrowLeft') {
+            heroMove('left')
+        } else if (event.key === 'ArrowRight') {
+            heroMove('right')
+        } else if (event.key === ' ') {
+            let currentPlace = document.querySelector(".hero")
+            let currentRow = parseInt(currentPlace.dataset.row)
+            let currentCol = parseInt(currentPlace.dataset.col)
+            let newRow = currentRow
+            let newCol = currentCol
+            let direction = currentPlace.dataset.direction
+            if (direction === 'up') {
+                newRow -= 1;
+            } else if (direction === "down") {
+                newRow += 1;
+            } else if (direction === "left") {
+                newCol -= 1;
+            } else if (direction === "right") {
+                newCol += 1;
+            }
+            attack("player", newRow, newCol)
+            checkWinCondition()
+            }
+    }})
 }
 
 function checkNeighborCells(randomRow, randomCol) {
@@ -270,13 +293,16 @@ function getRandomInt(min, max) {
 function moveMonsters(monsterNumber) {
     for (let i = 0; i < monsterNumber; i++) {
         let currentMonster = document.getElementById("monster" + i)
+        if (currentMonster == null) {
+            continue
+        }
         let currentMonsterRow = parseInt(currentMonster.dataset.row);
         let currentMonsterCol = parseInt(currentMonster.dataset.col);
         let newMonsterRow = currentMonsterRow
         let newMonsterCol = currentMonsterCol
         let randomInt = getRandomInt(1,6)
-        let direction = currentMonster.getAttribute("data-direction")
-        let currentMonsterHp = currentMonster.getAttribute("data-monster-hp")
+        let direction = currentMonster.dataset.direction
+        let currentMonsterHp = currentMonster.dataset.monsterHp
         switch (randomInt) {
             case 1:
                 newMonsterCol -= 1;
@@ -295,7 +321,16 @@ function moveMonsters(monsterNumber) {
                 direction = "down"
                 break;
             default:
-                console.log("placeholder attack")}
+                if (direction === 'up') {
+                    newMonsterRow -= 1;
+                } else if (direction === "down") {
+                    newMonsterRow += 1;
+                } else if (direction === "left") {
+                    newMonsterCol -= 1;
+                } else if (direction === "right") {
+                    newMonsterCol += 1;
+                }}
+                attack("monster", newMonsterRow, newMonsterCol)
         if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
             currentMonster.classList.remove("monster")
             currentMonster.removeAttribute("id")
@@ -311,4 +346,42 @@ function moveMonsters(monsterNumber) {
                 currentMonster.setAttribute("data-direction", direction);
             }
         }
+}
+
+function attack(type, attackedRow, attackedCol) {
+    let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent)
+    let attackedPlace = document.querySelector(
+        '[data-row="' + attackedRow + '"][data-col="' + attackedCol + '"]')
+    if (type === "player" && attackedPlace.classList.contains("chest")) {
+        document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 5
+        attackedPlace.classList.remove("chest")
+    } else if (attackedPlace.classList.contains("monster")) {
+        if (attackedPlace.dataset.monsterHp == 1) {
+            attackedPlace.classList.remove("monster")
+            attackedPlace.removeAttribute("id")
+            attackedPlace.removeAttribute("data-direction")
+            attackedPlace.removeAttribute("data-monster-hp")
+            document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 2
+        } else {attackedPlace.dataset.monsterHp -= 1}
+    } else if (attackedPlace.classList.contains("hero")) {
+        if (document.querySelector(".hud-hp").dataset.hp == 1) {
+            youLose()
+        } else {document.querySelector(".hud-hp").dataset.hp -= 1}
+    }
+}
+
+function youLose() {
+    clearInterval(intervalId)
+    gameRunning = false
+    alert('You lost! :(')
+
+}
+
+function checkWinCondition() {
+    if (document.querySelectorAll(".monster").length === 0) {
+        clearInterval(intervalId)
+        gameRunning = false
+        alert('You won! :)')
+    }
+
 }
