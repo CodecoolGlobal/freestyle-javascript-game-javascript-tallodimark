@@ -107,33 +107,26 @@ function setGameFieldSize(gameField) {
     gameField.style.height = (gameField.dataset.cellHeight * rows) + 'px';
 }
 
-//missing direction parameter and only works to move up only on time
-function heroMove(heroCurrentPlace, direction) {
+
+function heroMove(direction) {
+    let heroCurrentPlace = document.querySelector(".hero_stands");
+    let heroCurrentRow = parseInt(heroCurrentPlace.dataset.row);
+    let heroCurrentCol = parseInt(heroCurrentPlace.dataset.col);
     if (direction === 'up') {
-        let heroCurrentRow = parseInt(heroCurrentPlace.dataset.row);
-        let heroCurrentCol = parseInt(heroCurrentPlace.dataset.col);
         let newRow = heroCurrentRow - 1;
         let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + heroCurrentCol + '"]');
         heroCurrentPlace.classList.remove('hero_stands');
-        heroCurrentPlace = newHeroPlace;
-        heroCurrentPlace.classList.add('hero_stands');
+        newHeroPlace.classList.add('hero_stands');
     }
 }
 
 
 function initKeyUp () {
-    let heroCurrentPlace = document.querySelector(".hero_stands");
     document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowUp') {heroMove(heroCurrentPlace, 'up')
-    } else if (event.key === 'ArrowDown') {
-        let heroCurrentRow = parseInt(heroCurrentPlace.dataset.row);
-        heroCurrentPlace.dataset.row = heroCurrentRow + 1;
-    } else if (event.key === 'ArrowLeft') {
-        let heroCurrentCol = parseInt(heroCurrentPlace.dataset.col);
-        heroCurrentPlace.dataset.col = heroCurrentCol -1;
-    } else if (event.key === 'ArrowRight') {
-        let heroCurrentCol = parseInt(heroCurrentPlace.dataset.col);
-        heroCurrentPlace.dataset.col = heroCurrentCol + 1;
+    if (event.key === 'ArrowUp') {heroMove('up')
+    } else if (event.key === 'ArrowDown') {heroMove('down')
+    } else if (event.key === 'ArrowLeft') {heroMove('left')
+    } else if (event.key === 'ArrowRight') {heroMove('right')
     } else if (event.key === ' ') {console.log(event.key)
     } else {console.log('invalid')
     }console.log(heroCurrentPlace)
