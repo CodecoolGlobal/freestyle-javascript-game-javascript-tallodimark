@@ -4,6 +4,7 @@ const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
 const wallCount = 30
+let gameRunning = true
 let intervalId;
 let monsterNumber = 0;
 let coinNumber = 0;
@@ -189,6 +190,7 @@ function validateMovement(type, row, col) {
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
+        if (gameRunning) {
         if (event.key === 'ArrowUp') {
             heroMove('up')
         } else if (event.key === 'ArrowDown') {
@@ -214,6 +216,7 @@ function initKeyUp () {
                 newCol += 1;
             }
             attack("player", newRow, newCol)
+            checkWinCondition()
             }
     }})
 }
@@ -365,4 +368,20 @@ function attack(type, attackedRow, attackedCol) {
             youLose()
         } else {document.querySelector(".hud-hp").dataset.hp -= 1}
     }
+}
+
+function youLose() {
+    clearInterval(intervalId)
+    gameRunning = false
+    alert('You lost! :(')
+
+}
+
+function checkWinCondition() {
+    if (document.querySelectorAll(".monster").length === 0) {
+        clearInterval(intervalId)
+        gameRunning = false
+        alert('You won! :)')
+    }
+
 }
