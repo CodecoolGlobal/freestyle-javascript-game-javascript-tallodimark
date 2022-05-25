@@ -18,24 +18,24 @@ if (difficulty === 'Easy') {
     chestNumber = 5;
     swordNumber = 3;
     monsterHp = 1;
-    heroHp = 10;
-    difficultyTimer = 1500;
+    heroHp = 12;
+    difficultyTimer = 3000;
 } else if (difficulty === 'Medium') {
     monsterNumber = 10;
     coinNumber = 7;
     chestNumber = 3;
     swordNumber = 2;
     monsterHp = 2;
-    heroHp = 7;
-    difficultyTimer = 1000;
+    heroHp = 8;
+    difficultyTimer = 2000;
 } else if (difficulty === 'Hard') {
     monsterNumber = 20;
     coinNumber = 4;
     chestNumber = 1;
     swordNumber = 1;
     monsterHp = 3;
-    heroHp = 3;
-    difficultyTimer = 750;
+    heroHp = 4;
+    difficultyTimer = 1000;
 }
 
 initGame();
@@ -45,7 +45,31 @@ function initGame() {
     this.drawWalls();
     this.populateBoard();
     this.initKeyUp();
+    this.fillStats();
     this.startTimedEvents();
+}
+
+function fillStats() {
+    let statField = document.querySelector(".stats");
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<div class="stats hud-hp"></div>'
+    );
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<div class="stats hud-coins"></div>'
+    );
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<p class="stats hud-coin-amount">0 g</p>'
+    );
+    let hpPool = document.querySelector(".hud-hp")
+    for (let hp = 1; hp < heroHp; hp += 4) {
+        hpPool.insertAdjacentHTML(
+            'beforeend',
+            `<div id="hp-${Math.round(hp/4)}" class="hero-hp-full"></div>`
+        );
+    }
 }
 
 function startTimedEvents() {
