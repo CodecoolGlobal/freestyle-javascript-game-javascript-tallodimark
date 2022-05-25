@@ -17,7 +17,7 @@ if (difficulty === 'Easy') {
     chestNumber = 5;
     swordNumber = 3;
     monsterHp = 1;
-    heroHp = 10;
+    heroHp = 12;
     difficultyTimer = 3000;
 } else if (difficulty === 'Medium') {
     monsterNumber = 10;
@@ -25,7 +25,7 @@ if (difficulty === 'Easy') {
     chestNumber = 3;
     swordNumber = 2;
     monsterHp = 2;
-    heroHp = 7;
+    heroHp = 8;
     difficultyTimer = 2000;
 } else if (difficulty === 'Hard') {
     monsterNumber = 20;
@@ -33,7 +33,7 @@ if (difficulty === 'Easy') {
     chestNumber = 1;
     swordNumber = 1;
     monsterHp = 3;
-    heroHp = 3;
+    heroHp = 4;
     difficultyTimer = 1000;
 }
 
@@ -44,6 +44,26 @@ function initGame() {
     this.drawWalls();
     this.populateBoard();
     this.initKeyUp();
+    this.fillStats();
+}
+
+function fillStats() {
+    let statField = document.querySelector(".stats");
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<div class="stats hud-hp"></div>'
+    );
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<div class="stats hud-coins"></div>'
+    );
+    let hpPool = document.querySelector(".hud-hp")
+    for (let hp = 1; hp < heroHp; hp += 4) {
+        hpPool.insertAdjacentHTML(
+            'beforeend',
+            `<div id="hp-${Math.round(hp/4)}" class="hero-hp"></div>`
+        );
+    }
 }
 
 function drawBoard () {
@@ -148,17 +168,17 @@ function initKeyUp () {
     } else if (event.key === 'ArrowRight') {heroMove('right')
     } else if (event.key === ' ') {console.log(event.key)
     } else {console.log('invalid')
-    }console.log(heroCurrentPlace)
+    }
     })
 }
 
 function checkNeighborCells(randomRow, randomCol) {
     let rowBefore = 0;
-    if (randomRow != 0) {rowBefore = randomRow - 1}
+    if (randomRow !== 0) {rowBefore = randomRow - 1}
     let rowAfter = randomRow + 1;
     if (rowAfter > rows - 1) {rowAfter = randomRow}
     let colBefore = 0;
-    if (randomCol != 0) {colBefore = randomCol - 1}
+    if (randomCol !== 0) {colBefore = randomCol - 1}
     let colAfter = randomCol + 1;
     if (colAfter > cols - 1) {colAfter = randomCol}
     for (let i = rowBefore; i < rowAfter + 1; i++) {
