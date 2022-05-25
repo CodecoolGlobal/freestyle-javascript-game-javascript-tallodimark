@@ -129,11 +129,28 @@ function heroMove(direction) {
         let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
         newHeroPlace.classList.add('hero');
         newHeroPlace.setAttribute("data-direction", direction);
+    } else {
+        heroCurrentPlace.setAttribute("data-direction", direction);
     }
 }
 
 function validateMovement(type, row, col) {
-   return true
+    let newPlace = document.querySelector('[data-row="' + row + '"][data-col="' + col + '"]')
+    if (type === "player") {
+        if (newPlace.classList.contains("wall") || newPlace.classList.contains("monster") ||
+            newPlace.classList.contains("chest") || newPlace.classList.contains("boss") ||
+            newPlace.classList.contains("bush")) {
+            return false;
+            }
+    } else if (type === "monster") {
+        if (newPlace.classList.contains("wall") || newPlace.classList.contains("monster") ||
+            newPlace.classList.contains("chest") || newPlace.classList.contains("boss") ||
+            newPlace.classList.contains("bush") || newPlace.classList.contains("hero") ||
+            newPlace.classList.contains("coins") || newPlace.classList.contains("sword")) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function updateDirection(type, direction, id) {
