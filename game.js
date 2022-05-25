@@ -55,6 +55,7 @@ function fillStats() {
         'beforeend',
         '<div class="stats hud-hp"></div>'
     );
+    document.querySelector(".hud-hp").setAttribute("data-hp", heroHp)
     statField.insertAdjacentHTML(
         'beforeend',
         '<div class="stats hud-coins"></div>'
@@ -214,7 +215,7 @@ function initKeyUp () {
             }
             attack("player", newRow, newCol)
             }
-    })
+    }})
 }
 
 function checkNeighborCells(randomRow, randomCol) {
@@ -352,13 +353,16 @@ function attack(type, attackedRow, attackedCol) {
         document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 5
         attackedPlace.classList.remove("chest")
     } else if (attackedPlace.classList.contains("monster")) {
-        attackedPlace.dataset.monsterHp -= 1
-        if (attackedPlace.dataset.monsterHp == 0) {
+        if (attackedPlace.dataset.monsterHp == 1) {
             attackedPlace.classList.remove("monster")
             attackedPlace.removeAttribute("id")
             attackedPlace.removeAttribute("data-direction")
             attackedPlace.removeAttribute("data-monster-hp")
             document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 2
-        }
+        } else {attackedPlace.dataset.monsterHp -= 1}
+    } else if (attackedPlace.classList.contains("hero")) {
+        if (document.querySelector(".hud-hp").dataset.hp == 1) {
+            youLose()
+        } else {document.querySelector(".hud-hp").dataset.hp -= 1}
     }
 }
