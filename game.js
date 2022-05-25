@@ -57,6 +57,10 @@ function fillStats() {
         'beforeend',
         '<div class="stats hud-coins"></div>'
     );
+    statField.insertAdjacentHTML(
+        'beforeend',
+        '<p class="stats hud-coin-amount">0 g</p>'
+    );
     let hpPool = document.querySelector(".hud-hp")
     for (let hp = 1; hp < heroHp; hp += 4) {
         hpPool.insertAdjacentHTML(

@@ -68,6 +68,12 @@
     image-rendering: pixelated;
 }
 
+.stats .hud-coin-amount {
+    margin-left: 16px;
+    font-family: monospace;
+    font-size: x-large;
+}
+
 .hero-hp-full {
     height: 64px;
     width: 64px;
