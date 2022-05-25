@@ -227,14 +227,11 @@ function spawnObjects(objectName, numberOfObject) {
                     objectToPlace.setAttribute("data-direction", "down")
                 }
                 if (arguments[0] === 'monster') {
-                    objectToPlace.setAttribute('id', i)
+                    objectToPlace.setAttribute('id', "monster" + i)
                     objectToPlace.setAttribute("data-direction", "down")
+                    objectToPlace.setAttribute("data-monster-hp", monsterHp)
                 }
             }
-        if (arguments[0] === 'monster') {
-            document.querySelector(".stats").setAttribute("data-monster-" + i + "-hp", monsterHp)
-        }
-
         }
     }
 }
@@ -255,6 +252,7 @@ function moveMonsters(monsterNumber) {
         let newMonsterCol = currentMonsterCol
         let randomInt = getRandomInt(1,6)
         let direction = currentMonster.getAttribute("data-direction")
+        let currentMonsterHp = currentMonster.getAttribute("data-monster-hp")
         switch (randomInt) {
             case 1:
                 newMonsterCol -= 1;
@@ -278,27 +276,15 @@ function moveMonsters(monsterNumber) {
             currentMonster.classList.remove("monster")
             currentMonster.removeAttribute("id")
             currentMonster.removeAttribute("data-direction")
+            currentMonster.removeAttribute("data-monster-hp")
             let newMonsterPlace = document.querySelector('[data-row="' + newMonsterRow
                 + '"][data-col="' + newMonsterCol + '"]');
             newMonsterPlace.classList.add('monster');
             newMonsterPlace.setAttribute("id", "monster" + i)
             newMonsterPlace.setAttribute("data-direction", direction);
+            newMonsterPlace.setAttribute("data-monster-hp", currentMonsterHp)
             } else {
                 currentMonster.setAttribute("data-direction", direction);
             }
         }
-}
-function placeHero() {
-    let checkNeighbor = false
-    while (!checkNeighbor) {
-        let randomRow = getRandomInt(0, rows)
-        let randomCol = getRandomInt(0, cols)
-        checkNeighbor = checkNeighborCells(randomRow, randomCol)
-        if (checkNeighbor) {
-            let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-            player.classList.add("hero")
-            player.setAttribute("data-direction", "down")
-        }
-
-    }
 }
