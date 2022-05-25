@@ -161,6 +161,11 @@ function heroMove(direction) {
         heroCurrentPlace.classList.remove('hero');
         heroCurrentPlace.removeAttribute("data-direction");
         let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
+        if (newHeroPlace.classList.contains("coin")) {
+            newHeroPlace.classList.remove("coin")
+            let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent)
+            document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 1
+        }
         newHeroPlace.classList.add('hero');
         newHeroPlace.setAttribute("data-direction", direction);
     } else {
