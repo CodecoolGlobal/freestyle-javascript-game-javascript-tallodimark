@@ -12,25 +12,25 @@
 .game-field .row .field {
     height: 32px;
     width: 32px;
-    background: url('../img/open-field.png');
+    background: url('../img/ground.png');
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 .game-field .row .field.wall {
-    background: url('../img/closed-field.png');
+    background: url('../img/wall.png');
 }
 
 .game-field .row .field.gate {
-    background: url('../img/open-field.png');
+    background: url('../img/ground.png');
 }
 
 .game-field .row .field.monster {
-    background: url('../img/mine.png');
+    background: url('../img/enemy-facing-down-standing.png');
 }
 
 .game-field .row .field.hero_stands {
-    background: url('../img/flag.png');
+    background: url('../img/player-facing-down-standing.png');
 }
 
