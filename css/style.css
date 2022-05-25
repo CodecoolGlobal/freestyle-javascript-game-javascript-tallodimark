@@ -42,6 +42,7 @@
     background: url('../img/player-facing-left-standing.png');
 }
 
+
 .game-field .row .field.monster[data-direction="down"] {
     background: url('../img/enemy-facing-down-standing.png');
 }
@@ -57,3 +58,17 @@
 .game-field .row .field.monster[data-direction="left"] {
     background: url('../img/enemy-facing-left-standing.png');
 }
+
+.game-field .row .field.coin {
+    background: url('../img/coins.png');
+}
+.game-field .row .field.chest {
+    background: url('../img/chest.png');
+}
+.game-field .row .field.bush {
+    background: url('../img/bush.png');
+}
+.game-field .row .field.sword {
+    background: url('../img/sword.png');
+}
+
