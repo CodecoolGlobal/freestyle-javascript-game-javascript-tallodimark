@@ -289,6 +289,9 @@ function getRandomInt(min, max) {
 function moveMonsters(monsterNumber) {
     for (let i = 0; i < monsterNumber; i++) {
         let currentMonster = document.getElementById("monster" + i)
+        if (currentMonster == null) {
+            continue
+        }
         let currentMonsterRow = parseInt(currentMonster.dataset.row);
         let currentMonsterCol = parseInt(currentMonster.dataset.col);
         let newMonsterRow = currentMonsterRow
@@ -314,7 +317,16 @@ function moveMonsters(monsterNumber) {
                 direction = "down"
                 break;
             default:
-                console.log("placeholder attack")}
+                if (direction === 'up') {
+                    newMonsterRow -= 1;
+                } else if (direction === "down") {
+                    newMonsterRow += 1;
+                } else if (direction === "left") {
+                    newMonsterCol -= 1;
+                } else if (direction === "right") {
+                    newMonsterCol += 1;
+                }}
+                attack("monster", newMonsterRow, newMonsterCol)
         if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
             currentMonster.classList.remove("monster")
             currentMonster.removeAttribute("id")
@@ -339,5 +351,14 @@ function attack(type, attackedRow, attackedCol) {
     if (type === "player" && attackedPlace.classList.contains("chest")) {
         document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 5
         attackedPlace.classList.remove("chest")
+    } else if (attackedPlace.classList.contains("monster")) {
+        attackedPlace.dataset.monsterHp -= 1
+        if (attackedPlace.dataset.monsterHp == 0) {
+            attackedPlace.classList.remove("monster")
+            attackedPlace.removeAttribute("id")
+            attackedPlace.removeAttribute("data-direction")
+            attackedPlace.removeAttribute("data-monster-hp")
+            document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 2
+        }
     }
 }
