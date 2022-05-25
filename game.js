@@ -60,7 +60,7 @@ function drawBoard () {
 
 }
 function drawWalls () {
-    firstAndLastRowAndCol = document.querySelectorAll('[data-row="0"], [data-row="' + (rows - 1) + '"],' +
+    let firstAndLastRowAndCol = document.querySelectorAll('[data-row="0"], [data-row="' + (rows - 1) + '"],' +
         '[data-col="0"], [data-col="' + (cols - 1) + '"]')
     for (let element of firstAndLastRowAndCol) {
         element.classList.add('wall')
@@ -109,17 +109,36 @@ function setGameFieldSize(gameField) {
 
 
 function heroMove(direction) {
-    let heroCurrentPlace = document.querySelector(".hero_stands");
+    let heroCurrentPlace = document.querySelector(".hero");
     let heroCurrentRow = parseInt(heroCurrentPlace.dataset.row);
     let heroCurrentCol = parseInt(heroCurrentPlace.dataset.col);
+    let newRow = heroCurrentRow;
+    let newCol = heroCurrentCol;
     if (direction === 'up') {
-        let newRow = heroCurrentRow - 1;
-        let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + heroCurrentCol + '"]');
-        heroCurrentPlace.classList.remove('hero_stands');
-        newHeroPlace.classList.add('hero_stands');
+        newRow -= 1;
+    } else if (direction === "down") {
+        newRow += 1;
+    } else if (direction === "left") {
+        newCol -= 1;
+    } else if (direction === "right") {
+        newCol += 1;
+    }
+    if (validateMovement("player", newRow, newCol)) {
+        heroCurrentPlace.classList.remove('hero');
+        heroCurrentPlace.removeAttribute("data-direction");
+        let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
+        newHeroPlace.classList.add('hero');
+        newHeroPlace.setAttribute("data-direction", direction);
     }
 }
 
+function validateMovement(type, row, col) {
+   return true
+}
+
+function updateDirection(type, direction, id) {
+    console.log("updDirection")
+}
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
@@ -222,7 +241,8 @@ function placeHero() {
         checkNeighbor = checkNeighborCells(randomRow, randomCol)
         if (checkNeighbor) {
             let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
-            player.classList.add("hero_stands")
+            player.classList.add("hero")
+            player.setAttribute("data-direction", "down")
         }
     }
 }

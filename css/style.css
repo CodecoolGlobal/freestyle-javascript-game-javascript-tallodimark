@@ -30,7 +30,18 @@
     background: url('../img/enemy-facing-down-standing.png');
 }
 
-.game-field .row .field.hero_stands {
+.game-field .row .field.hero[data-direction="down"] {
     background: url('../img/player-facing-down-standing.png');
 }
 
+.game-field .row .field.hero[data-direction="up"] {
+    background: url('../img/player-facing-up-standing.png');
+}
+
+.game-field .row .field.hero[data-direction="right"] {
+    background: url('../img/player-facing-right-standing.png');
+}
+
+.game-field .row .field.hero[data-direction="left"] {
+    background: url('../img/player-facing-left-standing.png');
+}
