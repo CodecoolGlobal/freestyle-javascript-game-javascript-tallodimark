@@ -4,6 +4,7 @@ const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
 const wallCount = 30
+let intervalId;
 let monsterNumber = 0;
 let coinNumber = 0;
 let chestNumber = 0;
@@ -18,7 +19,7 @@ if (difficulty === 'Easy') {
     swordNumber = 3;
     monsterHp = 1;
     heroHp = 10;
-    difficultyTimer = 3000;
+    difficultyTimer = 1500;
 } else if (difficulty === 'Medium') {
     monsterNumber = 10;
     coinNumber = 7;
@@ -26,7 +27,7 @@ if (difficulty === 'Easy') {
     swordNumber = 2;
     monsterHp = 2;
     heroHp = 7;
-    difficultyTimer = 2000;
+    difficultyTimer = 1000;
 } else if (difficulty === 'Hard') {
     monsterNumber = 20;
     coinNumber = 4;
@@ -34,7 +35,7 @@ if (difficulty === 'Easy') {
     swordNumber = 1;
     monsterHp = 3;
     heroHp = 3;
-    difficultyTimer = 1000;
+    difficultyTimer = 750;
 }
 
 initGame();
@@ -44,6 +45,13 @@ function initGame() {
     this.drawWalls();
     this.populateBoard();
     this.initKeyUp();
+    this.startTimedEvents();
+}
+
+function startTimedEvents() {
+    if (!intervalId) {
+        intervalId = setInterval(moveMonsters, difficultyTimer, monsterNumber)
+    }
 }
 
 function drawBoard () {
@@ -153,9 +161,6 @@ function validateMovement(type, row, col) {
     return true;
 }
 
-function updateDirection(type, direction, id) {
-    console.log("updDirection")
-}
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
@@ -229,6 +234,7 @@ function spawnObjects(objectName, numberOfObject) {
         if (arguments[0] === 'monster') {
             document.querySelector(".stats").setAttribute("data-monster-" + i + "-hp", monsterHp)
         }
+
         }
     }
 }
@@ -239,10 +245,60 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-function moveMonserts(monsterNumber, difficultyTimer) {
-    for (let i=0; i<monsterNumber; i++) {
-        let currentMonster = document.querySelector('.monster' + i);
-        let currentMonsterRow = currentMonster.dataset.row;
-        let currentMonsterCol = currentMonster.dataset.col;
+
+function moveMonsters(monsterNumber) {
+    for (let i = 0; i < monsterNumber; i++) {
+        let currentMonster = document.getElementById("monster" + i)
+        let currentMonsterRow = parseInt(currentMonster.dataset.row);
+        let currentMonsterCol = parseInt(currentMonster.dataset.col);
+        let newMonsterRow = currentMonsterRow
+        let newMonsterCol = currentMonsterCol
+        let randomInt = getRandomInt(1,6)
+        let direction = currentMonster.getAttribute("data-direction")
+        switch (randomInt) {
+            case 1:
+                newMonsterCol -= 1;
+                direction = "left"
+                break;
+            case 2:
+                newMonsterCol += 1;
+                direction = "right"
+                break;
+            case 3:
+                newMonsterRow -= 1;
+                direction = "up"
+                break;
+            case 4:
+                newMonsterRow += 1;
+                direction = "down"
+                break;
+            default:
+                console.log("placeholder attack")}
+        if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
+            currentMonster.classList.remove("monster")
+            currentMonster.removeAttribute("id")
+            currentMonster.removeAttribute("data-direction")
+            let newMonsterPlace = document.querySelector('[data-row="' + newMonsterRow
+                + '"][data-col="' + newMonsterCol + '"]');
+            newMonsterPlace.classList.add('monster');
+            newMonsterPlace.setAttribute("id", "monster" + i)
+            newMonsterPlace.setAttribute("data-direction", direction);
+            } else {
+                currentMonster.setAttribute("data-direction", direction);
+            }
+        }
+}
+function placeHero() {
+    let checkNeighbor = false
+    while (!checkNeighbor) {
+        let randomRow = getRandomInt(0, rows)
+        let randomCol = getRandomInt(0, cols)
+        checkNeighbor = checkNeighborCells(randomRow, randomCol)
+        if (checkNeighbor) {
+            let player = document.querySelector('[data-row="' + randomRow + '"][data-col="' + randomCol + '"]')
+            player.classList.add("hero")
+            player.setAttribute("data-direction", "down")
+        }
+
     }
 }
