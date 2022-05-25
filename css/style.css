@@ -29,11 +29,6 @@
     image-rendering: pixelated;
 }
 
-.game-field .row .field.monster {
-    background: url('../img/enemy-facing-down-standing.png'), #80A344;
-    image-rendering: pixelated;
-}
-
 .game-field .row .field.hero[data-direction="down"] {
     background: url('../img/player-facing-down-standing.png'), #80A344;
     image-rendering: pixelated;
@@ -110,15 +105,42 @@
     background-size: contain;
     image-rendering: pixelated;
 }
+
+
+.game-field .row .field.monster[data-direction="down"] {
+    background: url('../img/enemy-facing-down-standing.png'), #80A344;;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster[data-direction="up"] {
+    background: url('../img/enemy-facing-up-standing.png'), #80A344;;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster[data-direction="right"] {
+    background: url('../img/enemy-facing-right-standing.png'), #80A344;;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster[data-direction="left"] {
+    background: url('../img/enemy-facing-left-standing.png'), #80A344;;
+    image-rendering: pixelated;
+}
+
 .game-field .row .field.coin {
     background: url('../img/coins.png'), #80A344;
+    image-rendering: pixelated;
 }
 .game-field .row .field.chest {
     background: url('../img/chest.png'), #80A344;
+    image-rendering: pixelated;
 }
 .game-field .row .field.bush {
     background: url('../img/bush.png'), #80A344;
+    image-rendering: pixelated;
 }
 .game-field .row .field.sword {
     background: url('../img/sword.png'), #80A344;
+    image-rendering: pixelated;
 }
+
