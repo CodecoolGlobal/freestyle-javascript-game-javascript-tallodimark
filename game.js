@@ -61,7 +61,7 @@ function fillStats() {
     for (let hp = 1; hp < heroHp; hp += 4) {
         hpPool.insertAdjacentHTML(
             'beforeend',
-            `<div id="hp-${Math.round(hp/4)}" class="hero-hp"></div>`
+            `<div id="hp-${Math.round(hp/4)}" class="hero-hp-full"></div>`
         );
     }
 }
