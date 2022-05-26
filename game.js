@@ -195,15 +195,22 @@ function validateMovement(type, row, col) {
 
 function initKeyUp () {
     document.addEventListener('keyup', (event) => {
+        let currentRow = document.querySelector(".hero").dataset.row
+        let currentCol = document.querySelector(".hero").dataset.col
+        let timeout = 300
         if (gameRunning) {
         if (event.key === 'ArrowUp') {
-            heroMove('up')
+            animateMovements("player", currentRow, currentCol, "move")
+            setTimeout(heroMove, timeout, 'up');
         } else if (event.key === 'ArrowDown') {
-            heroMove('down')
+            animateMovements("player", currentRow, currentCol, "move")
+            setTimeout(heroMove, timeout, 'down');
         } else if (event.key === 'ArrowLeft') {
-            heroMove('left')
+            animateMovements("player", currentRow, currentCol, "move")
+            setTimeout(heroMove, timeout, 'left');
         } else if (event.key === 'ArrowRight') {
-            heroMove('right')
+            animateMovements("player", currentRow, currentCol, "move")
+            setTimeout(heroMove, timeout, 'right');
         } else if (event.key === ' ') {
             let currentPlace = document.querySelector(".hero")
             let currentRow = parseInt(currentPlace.dataset.row)
@@ -220,31 +227,34 @@ function initKeyUp () {
             } else if (direction === "right") {
                 newCol += 1;
             }
-            animateMovements('player', direction, currentRow, currentCol, newRow, newCol, 'attack')
+            animateMovements('player', currentRow, currentCol, 'attack')
             attack("player", newRow, newCol)
             checkWinCondition()
             }
     }})
 }
 
-function animateMovements (type, direction, currentRow, currentCol, newRow, newCol, attackOrMove) {
+function animateMovements (type, currentRow, currentCol, attackOrMove) {
     let currentPlace = document.querySelector('[data-row="' + currentRow + '"][data-col="' + currentCol + '"]');
-    let newPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
+    let timeout = 300
     function removeSpecificClass (className) {
         currentPlace.classList.remove(className);
     }
     if (type === 'player') {
         if (attackOrMove === 'attack') {
             currentPlace.classList.add('hero_attack')
-            setTimeout(removeSpecificClass, 500, 'hero_attack');
+            setTimeout(removeSpecificClass, timeout, 'hero_attack');
         } else if (attackOrMove === 'move'){
-            console.log('h')
+            currentPlace.classList.add('hero_move')
+            setTimeout(removeSpecificClass, timeout, 'hero_move');
         }
     } else if (type === 'monster'){
         if (attackOrMove === 'attack') {
-            console.log('D')
+            currentPlace.classList.add('monster_attack')
+            setTimeout(removeSpecificClass, timeout, 'monster_attack');
         } else if (attackOrMove === 'move'){
-            console.log("w")
+            currentPlace.classList.add('monster_move')
+            setTimeout(removeSpecificClass, timeout, 'monster_move');
         }
     }
 }
