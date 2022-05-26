@@ -4,6 +4,7 @@ const difficulty = urlParams.get('difficulty');
 const rows = 27
 const cols = 54
 const wallCount = 30
+const timeoutForAnimation = 300
 let gameRunning = true
 let intervalId;
 let monsterNumber = 0;
@@ -197,20 +198,19 @@ function initKeyUp () {
     document.addEventListener('keyup', (event) => {
         let currentRow = document.querySelector(".hero").dataset.row
         let currentCol = document.querySelector(".hero").dataset.col
-        let timeout = 300
         if (gameRunning) {
         if (event.key === 'ArrowUp') {
             animateMovements("player", currentRow, currentCol, "move")
-            setTimeout(heroMove, timeout, 'up');
+            setTimeout(heroMove, timeoutForAnimation, 'up');
         } else if (event.key === 'ArrowDown') {
             animateMovements("player", currentRow, currentCol, "move")
-            setTimeout(heroMove, timeout, 'down');
+            setTimeout(heroMove, timeoutForAnimation, 'down');
         } else if (event.key === 'ArrowLeft') {
             animateMovements("player", currentRow, currentCol, "move")
-            setTimeout(heroMove, timeout, 'left');
+            setTimeout(heroMove, timeoutForAnimation, 'left');
         } else if (event.key === 'ArrowRight') {
             animateMovements("player", currentRow, currentCol, "move")
-            setTimeout(heroMove, timeout, 'right');
+            setTimeout(heroMove, timeoutForAnimation, 'right');
         } else if (event.key === ' ') {
             let currentPlace = document.querySelector(".hero")
             let currentRow = parseInt(currentPlace.dataset.row)
@@ -236,25 +236,24 @@ function initKeyUp () {
 
 function animateMovements (type, currentRow, currentCol, attackOrMove) {
     let currentPlace = document.querySelector('[data-row="' + currentRow + '"][data-col="' + currentCol + '"]');
-    let timeout = 300
     function removeSpecificClass (className) {
         currentPlace.classList.remove(className);
     }
     if (type === 'player') {
         if (attackOrMove === 'attack') {
             currentPlace.classList.add('hero_attack')
-            setTimeout(removeSpecificClass, timeout, 'hero_attack');
+            setTimeout(removeSpecificClass, timeoutForAnimation, 'hero_attack');
         } else if (attackOrMove === 'move'){
             currentPlace.classList.add('hero_move')
-            setTimeout(removeSpecificClass, timeout, 'hero_move');
+            setTimeout(removeSpecificClass, timeoutForAnimation, 'hero_move');
         }
     } else if (type === 'monster'){
         if (attackOrMove === 'attack') {
             currentPlace.classList.add('monster_attack')
-            setTimeout(removeSpecificClass, timeout, 'monster_attack');
+            setTimeout(removeSpecificClass, timeoutForAnimation, 'monster_attack');
         } else if (attackOrMove === 'move'){
             currentPlace.classList.add('monster_move')
-            setTimeout(removeSpecificClass, timeout, 'monster_move');
+            setTimeout(removeSpecificClass, timeoutForAnimation, 'monster_move');
         }
     }
 }
@@ -367,10 +366,13 @@ function moveMonsters(monsterNumber) {
                     newMonsterCol -= 1;
                 } else if (direction === "right") {
                     newMonsterCol += 1;
-                }}
+                }
                 animateMovements('monster', currentMonsterRow, currentMonsterCol, 'attack')
                 attack("monster", newMonsterRow, newMonsterCol)
+        }
+        animateMovements("monster", currentMonsterRow, currentMonsterCol, "move")
         if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
+            function moveThatMonster () {
             currentMonster.classList.remove("monster")
             currentMonster.removeAttribute("id")
             currentMonster.removeAttribute("data-direction")
@@ -381,7 +383,9 @@ function moveMonsters(monsterNumber) {
             newMonsterPlace.setAttribute("id", "monster" + i)
             newMonsterPlace.setAttribute("data-direction", direction);
             newMonsterPlace.setAttribute("data-monster-hp", currentMonsterHp)
-            } else {
+            }
+            setTimeout(moveThatMonster, timeoutForAnimation);
+        } else {
                 currentMonster.setAttribute("data-direction", direction);
             }
         }
