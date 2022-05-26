@@ -368,6 +368,7 @@ function moveMonsters(monsterNumber) {
                 } else if (direction === "right") {
                     newMonsterCol += 1;
                 }}
+                animateMovements('monster', currentMonsterRow, currentMonsterCol, 'attack')
                 attack("monster", newMonsterRow, newMonsterCol)
         if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
             currentMonster.classList.remove("monster")
