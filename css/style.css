@@ -1,3 +1,38 @@
+.body {
+    background-color: #4b5e27;
+}
+
+h1 {
+    color: white;
+    font-size: 60px;
+    font-family: "Arial";
+    text-align: center;
+    padding-top: 15%;
+
+}
+
+form {
+    text-align: center;
+}
+
+input {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border-color: white;
+    font-size: 35px;
+}
+
+input:hover {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    border-color: black;
+    font-size: 35px;
+}
+
 .game-field {
     margin: 0 auto;
     display: flex;
@@ -67,6 +102,7 @@
     margin-left: 16px;
     font-family: monospace;
     font-size: x-large;
+    color: white;
 }
 
 .hero-hp-4 {
