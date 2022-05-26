@@ -39,6 +39,7 @@ if (difficulty === 'Easy') {
     heroHp = 4;
     difficultyTimer = 1000;
 }
+let hpDisplayNumber = Math.round(heroHp / 4) - 1;
 
 initGame();
 
@@ -51,26 +52,82 @@ function initGame() {
     this.startTimedEvents();
 }
 
+function refreshHpVisualisation (currentHeroHp) {
+    let firstPool = document.querySelector('#hp-0')
+    let secondPool = document.querySelector('#hp-1')
+    let thirdPool = document.querySelector('#hp-2')
+    switch (currentHeroHp) {
+        case 11:
+            thirdPool.classList.remove('hero-hp-4');
+            thirdPool.classList.add('hero-hp-3');
+            break;
+        case 10:
+            thirdPool.classList.remove('hero-hp-3');
+            thirdPool.classList.add('hero-hp-2');
+            break;
+        case 9:
+            thirdPool.classList.remove('hero-hp-2');
+            thirdPool.classList.add('hero-hp-1');
+            break;
+        case 8:
+            thirdPool.classList.remove('hero-hp-1');
+            thirdPool.classList.add('hero-hp-0');
+            break;
+        case 7:
+            secondPool.classList.remove('hero-hp-4');
+            secondPool.classList.add('hero-hp-3');
+            break;
+        case 6:
+            secondPool.classList.remove('hero-hp-3');
+            secondPool.classList.add('hero-hp-2');
+            break;
+        case 5:
+            secondPool.classList.remove('hero-hp-2');
+            secondPool.classList.add('hero-hp-1');
+            break;
+        case 4:
+            secondPool.classList.remove('hero-hp-1');
+            secondPool.classList.add('hero-hp-0');
+            break;
+        case 3:
+            firstPool.classList.remove('hero-hp-4');
+            firstPool.classList.add('hero-hp-3');
+            break;
+        case 2:
+            firstPool.classList.remove('hero-hp-3');
+            firstPool.classList.add('hero-hp-2');
+            break;
+        case 1:
+            firstPool.classList.remove('hero-hp-2');
+            firstPool.classList.add('hero-hp-1');
+            break;
+        case 0:
+            firstPool.classList.remove('hero-hp-1');
+            firstPool.classList.add('hero-hp-0');
+            break;
+    }
+}
+
 function fillStats() {
     let statField = document.querySelector(".stats");
     statField.insertAdjacentHTML(
         'beforeend',
-        '<div class="stats hud-hp"></div>'
+        '<div class="hud-hp"></div>'
     );
     document.querySelector(".hud-hp").setAttribute("data-hp", heroHp)
     statField.insertAdjacentHTML(
         'beforeend',
-        '<div class="stats hud-coins"></div>'
+        '<div class="hud-coins"></div>'
     );
     statField.insertAdjacentHTML(
         'beforeend',
-        '<div class="stats hud-coin-amount">0</div>'
+        '<div class="hud-coin-amount">0</div>'
     );
     let hpPool = document.querySelector(".hud-hp")
     for (let hp = 1; hp < heroHp; hp += 4) {
         hpPool.insertAdjacentHTML(
             'beforeend',
-            `<div id="hp-${Math.round(hp/4)}" class="hero-hp-full"></div>`
+            `<div id="hp-${Math.round(hp/4)}" class="hero-hp-4"></div>`
         );
     }
 }
@@ -407,9 +464,11 @@ function attack(type, attackedRow, attackedCol) {
             document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 2
         } else {attackedPlace.dataset.monsterHp -= 1}
     } else if (attackedPlace.classList.contains("hero")) {
-        if (document.querySelector(".hud-hp").dataset.hp == 1) {
+        document.querySelector(".hud-hp").dataset.hp -= 1
+        refreshHpVisualisation(parseInt(document.querySelector(".hud-hp").dataset.hp))
+        if (document.querySelector(".hud-hp").dataset.hp == 0) {
             youLose()
-        } else {document.querySelector(".hud-hp").dataset.hp -= 1}
+        }
     }
 }
 

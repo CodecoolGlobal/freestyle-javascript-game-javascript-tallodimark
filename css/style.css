@@ -49,12 +49,12 @@
     image-rendering: pixelated;
 }
 
-.stats .hud-hp {
+.hud-hp {
     height: 64px;
     display: flex;
 }
 
-.stats .hud-coins {
+.hud-coins {
     margin-left: 64px;
     height: 64px;
     width: 64px;
@@ -63,13 +63,13 @@
     image-rendering: pixelated;
 }
 
-.stats .hud-coin-amount {
+.hud-coin-amount {
     margin-left: 16px;
     font-family: monospace;
     font-size: x-large;
 }
 
-.hero-hp-full {
+.hero-hp-4 {
     height: 64px;
     width: 64px;
     background: url("../img/hud-health.png");
@@ -77,28 +77,28 @@
     image-rendering: pixelated;
 }
 
-.hero-hp-three-quarter {
+.hero-hp-3 {
     height: 64px;
     width: 64px;
     background: url("../img/hud-three-quarter-health.png");
     background-size: contain;
     image-rendering: pixelated;
 }
-.hero-hp-half {
+.hero-hp-2 {
     height: 64px;
     width: 64px;
     background: url("../img/hud-half-health.png");
     background-size: contain;
     image-rendering: pixelated;
 }
-.hero-hp-quarter {
+.hero-hp-1 {
     height: 64px;
     width: 64px;
     background: url("../img/hud-quarter-health.png");
     background-size: contain;
     image-rendering: pixelated;
 }
-.hero-hp-empty {
+.hero-hp-0 {
     height: 64px;
     width: 64px;
     background: url("../img/hud-zero-health.png");
