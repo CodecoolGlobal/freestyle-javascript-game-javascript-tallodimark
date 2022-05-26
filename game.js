@@ -13,13 +13,14 @@ let chestNumber = 0;
 let swordNumber = 0;
 let monsterHp = 0;
 let heroHp = 0;
+let damage = 1;
 let difficultyTimer = 0;
 if (difficulty === 'Easy') {
     monsterNumber = 5;
     coinNumber = 10;
     chestNumber = 5;
-    swordNumber = 3;
-    monsterHp = 1;
+    swordNumber = 1;
+    monsterHp = 2;
     heroHp = 12;
     difficultyTimer = 3000;
 } else if (difficulty === 'Medium') {
@@ -27,15 +28,15 @@ if (difficulty === 'Easy') {
     coinNumber = 7;
     chestNumber = 3;
     swordNumber = 2;
-    monsterHp = 2;
+    monsterHp = 3;
     heroHp = 8;
     difficultyTimer = 2000;
 } else if (difficulty === 'Hard') {
     monsterNumber = 20;
     coinNumber = 4;
     chestNumber = 1;
-    swordNumber = 1;
-    monsterHp = 3;
+    swordNumber = 3;
+    monsterHp = 4;
     heroHp = 4;
     difficultyTimer = 1000;
 }
@@ -123,6 +124,7 @@ function fillStats() {
         'beforeend',
         '<div class="hud-coin-amount">0</div>'
     );
+
     let hpPool = document.querySelector(".hud-hp")
     for (let hp = 1; hp < heroHp; hp += 4) {
         hpPool.insertAdjacentHTML(
@@ -221,8 +223,13 @@ function heroMove(direction) {
         let newHeroPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
         if (newHeroPlace.classList.contains("coin")) {
             newHeroPlace.classList.remove("coin")
-            let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent)
-            document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 1
+            let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent);
+            document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 1;
+        } else if (newHeroPlace.classList.contains("sword")) {
+            newHeroPlace.classList.remove('sword');
+            damage += 1;
+            document.querySelector('.stats').removeAttribute('damage');
+            document.querySelector('.stats').setAttribute('damage', damage);
         }
         newHeroPlace.classList.add('hero');
         newHeroPlace.setAttribute("data-direction", direction);
@@ -330,7 +337,13 @@ function checkNeighborCells(randomRow, randomCol) {
             document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
                 .classList.contains("wall") ||
             document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("monster"))
+                .classList.contains("monster") ||
+            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
+                .classList.contains("chest") ||
+            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
+                .classList.contains("sword") ||
+            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
+                .classList.contains("coin"))
             return false
     }
     for (let j = colBefore; j < colAfter + 1; j++) {
@@ -339,7 +352,13 @@ function checkNeighborCells(randomRow, randomCol) {
             document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
                 .classList.contains("wall") ||
             document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("monster"))
+                .classList.contains("monster") ||
+            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
+                .classList.contains("chest") ||
+            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
+                .classList.contains("sword") ||
+            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
+                .classList.contains("coin"))
             return false
     }
     return true
@@ -366,6 +385,7 @@ function spawnObjects(objectName, numberOfObject) {
                 objectToPlace.classList.add(objectName);
                 if (objectName === 'hero') {
                     objectToPlace.setAttribute("data-direction", "down")
+                    document.querySelector('.stats').setAttribute('damage', damage);
                 }
                 else if (objectName === 'monster') {
                     objectToPlace.setAttribute('id', "monster" + i)
@@ -449,20 +469,22 @@ function moveMonsters(monsterNumber) {
 }
 
 function attack(type, attackedRow, attackedCol) {
-    let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent)
+    let currentScore = parseInt(document.querySelector(".stats .hud-coin-amount").textContent);
     let attackedPlace = document.querySelector(
-        '[data-row="' + attackedRow + '"][data-col="' + attackedCol + '"]')
+        '[data-row="' + attackedRow + '"][data-col="' + attackedCol + '"]');
+    let currentDamage = parseInt(document.querySelector('.stats').getAttribute('damage'));
     if (type === "player" && attackedPlace.classList.contains("chest")) {
         document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 5
         attackedPlace.classList.remove("chest")
     } else if (attackedPlace.classList.contains("monster")) {
-        if (attackedPlace.dataset.monsterHp == 1) {
+        attackedPlace.dataset.monsterHp -= currentDamage
+        if (attackedPlace.dataset.monsterHp <= 0) {
             attackedPlace.classList.remove("monster")
             attackedPlace.removeAttribute("id")
             attackedPlace.removeAttribute("data-direction")
             attackedPlace.removeAttribute("data-monster-hp")
             document.querySelector(".stats .hud-coin-amount").textContent = currentScore + 2
-        } else {attackedPlace.dataset.monsterHp -= 1}
+        }
     } else if (attackedPlace.classList.contains("hero")) {
         document.querySelector(".hud-hp").dataset.hp -= 1
         refreshHpVisualisation(parseInt(document.querySelector(".hud-hp").dataset.hp))
