@@ -144,3 +144,83 @@
     image-rendering: pixelated;
 }
 
+.game-field .row .field.hero.hero_attack[data-direction="up"] {
+    background: url('../img/player-facing-up-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_attack[data-direction="down"] {
+    background: url('../img/player-facing-down-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_attack[data-direction="right"] {
+    background: url('../img/player-facing-right-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_attack[data-direction="left"] {
+    background: url('../img/player-facing-left-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_move[data-direction="up"] {
+    background: url('../img/player-facing-up-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_move[data-direction="down"] {
+    background: url('../img/player-facing-down-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_move[data-direction="left"] {
+    background: url('../img/player-facing-left-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.hero.hero_move[data-direction="right"] {
+    background: url('../img/player-facing-right-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_move[data-direction="left"] {
+    background: url('../img/enemy-facing-left-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_move[data-direction="right"] {
+    background: url('../img/enemy-facing-right-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_move[data-direction="up"] {
+    background: url('../img/enemy-facing-up-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_move[data-direction="down"] {
+    background: url('../img/enemy-facing-down-moving.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+
+.game-field .row .field.monster.monster_attack[data-direction="up"] {
+    background: url('../img/enemy-facing-up-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_attack[data-direction="down"] {
+    background: url('../img/enemy-facing-down-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_attack[data-direction="right"] {
+    background: url('../img/enemy-facing-right-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
+
+.game-field .row .field.monster.monster_attack[data-direction="left"] {
+    background: url('../img/enemy-facing-left-attacking.png'), #80A344;
+    image-rendering: pixelated;
+}
