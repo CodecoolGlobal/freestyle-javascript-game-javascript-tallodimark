@@ -220,10 +220,33 @@ function initKeyUp () {
             } else if (direction === "right") {
                 newCol += 1;
             }
+            animateMovements('player', direction, currentRow, currentCol, newRow, newCol, 'attack')
             attack("player", newRow, newCol)
             checkWinCondition()
             }
     }})
+}
+
+function animateMovements (type, direction, currentRow, currentCol, newRow, newCol, attackOrMove) {
+    let currentPlace = document.querySelector('[data-row="' + currentRow + '"][data-col="' + currentCol + '"]');
+    let newPlace = document.querySelector('[data-row="' + newRow + '"][data-col="' + newCol + '"]');
+    function removeSpecificClass (className) {
+        currentPlace.classList.remove(className);
+    }
+    if (type === 'player') {
+        if (attackOrMove === 'attack') {
+            currentPlace.classList.add('hero_attack')
+            setTimeout(removeSpecificClass, 500, 'hero_attack');
+        } else if (attackOrMove === 'move'){
+            console.log('h')
+        }
+    } else if (type === 'monster'){
+        if (attackOrMove === 'attack') {
+            console.log('D')
+        } else if (attackOrMove === 'move'){
+            console.log("w")
+        }
+    }
 }
 
 function checkNeighborCells(randomRow, randomCol) {
