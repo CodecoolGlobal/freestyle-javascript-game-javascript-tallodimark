@@ -5,6 +5,7 @@ const rows = 27
 const cols = 54
 const wallCount = 30
 const timeoutForAnimation = 300
+const cantSpawnOnIt = ["gate", "wall", "monster", "chest", "sword", "coin", "bush"]
 let gameRunning = true
 let intervalId;
 let monsterNumber = 0;
@@ -332,34 +333,20 @@ function checkNeighborCells(randomRow, randomCol) {
     let colAfter = randomCol + 1;
     if (colAfter > cols - 1) {colAfter = randomCol}
     for (let i = rowBefore; i < rowAfter + 1; i++) {
-        if (document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("gate") ||
-            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("wall") ||
-            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("monster") ||
-            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("chest") ||
-            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("sword") ||
-            document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
-                .classList.contains("coin"))
-            return false
+        for (let element of cantSpawnOnIt) {
+            if (document.querySelector('[data-row="' + i + '"][data-col="' + randomCol + '"]')
+                .classList.contains(element)) {
+                return false
+            }
+        }
     }
-    for (let j = colBefore; j < colAfter + 1; j++) {
-        if (document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("gate") ||
-            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("wall") ||
-            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("monster") ||
-            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("chest") ||
-            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("sword") ||
-            document.querySelector('[data-row="' + randomRow + '"][data-col="' + j + '"]')
-                .classList.contains("coin"))
-            return false
+    for (let i = colBefore; i < colAfter + 1; i++) {
+        for (let element of cantSpawnOnIt) {
+            if (document.querySelector('[data-row="' + randomRow + '"][data-col="' + i + '"]')
+                .classList.contains(element)) {
+                return false
+            }
+        }
     }
     return true
 }
@@ -450,16 +437,16 @@ function moveMonsters(monsterNumber) {
         animateMovements("monster", currentMonsterRow, currentMonsterCol, "move")
         if (validateMovement("monster", newMonsterRow, newMonsterCol)) {
             function moveThatMonster () {
-            currentMonster.classList.remove("monster")
-            currentMonster.removeAttribute("id")
-            currentMonster.removeAttribute("data-direction")
-            currentMonster.removeAttribute("data-monster-hp")
-            let newMonsterPlace = document.querySelector('[data-row="' + newMonsterRow
-                + '"][data-col="' + newMonsterCol + '"]');
-            newMonsterPlace.classList.add('monster');
-            newMonsterPlace.setAttribute("id", "monster" + i)
-            newMonsterPlace.setAttribute("data-direction", direction);
-            newMonsterPlace.setAttribute("data-monster-hp", currentMonsterHp)
+                currentMonster.classList.remove("monster")
+                currentMonster.removeAttribute("id")
+                currentMonster.removeAttribute("data-direction")
+                currentMonster.removeAttribute("data-monster-hp")
+                let newMonsterPlace = document.querySelector('[data-row="' + newMonsterRow
+                    + '"][data-col="' + newMonsterCol + '"]');
+                newMonsterPlace.classList.add('monster');
+                newMonsterPlace.setAttribute("id", "monster" + i)
+                newMonsterPlace.setAttribute("data-direction", direction);
+                newMonsterPlace.setAttribute("data-monster-hp", currentMonsterHp)
             }
             setTimeout(moveThatMonster, timeoutForAnimation);
         } else {
