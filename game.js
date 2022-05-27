@@ -52,6 +52,7 @@ function initGame() {
     this.initKeyUp();
     this.fillStats();
     this.startTimedEvents();
+    this.moveCamera()
 }
 
 function refreshHpVisualisation (currentHeroHp) {
@@ -237,6 +238,7 @@ function heroMove(direction) {
     } else {
         heroCurrentPlace.setAttribute("data-direction", direction);
     }
+    moveCamera()
 }
 
 function validateMovement(type, row, col) {
@@ -260,6 +262,9 @@ function validateMovement(type, row, col) {
 
 
 function initKeyUp () {
+    document.addEventListener('keydown', (event) => {
+        event.preventDefault()
+    })
     document.addEventListener('keyup', (event) => {
         let currentRow = document.querySelector(".hero").dataset.row
         let currentCol = document.querySelector(".hero").dataset.col
@@ -490,9 +495,21 @@ function youLose() {
 
 function checkWinCondition() {
     if (document.querySelectorAll(".monster").length === 0) {
-        clearInterval(intervalId)
-        gameRunning = false
-        alert('You won! :)')
+        clearInterval(intervalId);
+        gameRunning = false;
+        alert('You won! :)');
     }
 
+}
+
+function moveCamera(){
+    let gameField = document.querySelector(".game-field");
+    let heroPlace = document.querySelector(".hero");
+    let gameFieldPositionX = gameField.getBoundingClientRect().x;
+    let gameFieldPositionY = gameField.getBoundingClientRect().y;
+    let heroPositionX = heroPlace.getBoundingClientRect().x;
+    let heroPositionY = heroPlace.getBoundingClientRect().y;
+    let cameraX = heroPositionX - gameFieldPositionX - 800;
+    let cameraY = heroPositionY - gameFieldPositionY - 350;
+    gameField.style.transformOrigin = `${cameraX}px ${cameraY}px`;
 }
